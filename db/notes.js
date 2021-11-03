@@ -33,12 +33,20 @@ class Notes {
         const newNote = {
             title, text, id: uuidv1()
         }
+        //
+        return this.readNotes().then((notes) => {
+            const notesArr = notes;
+            let newArr = []
+            newArr.push(newNote)
+            const finalArr = notesArr.concat(newArr)
 
-        return this.readNotes().then((notes) => [...notes, newNote]).then((updatedNotes) => this.write(updatedNotes)).then(() => newNote)
+            return finalArr;
+
+        }).then((updatedNotes) => this.write(updatedNotes))
     }
 
     deleteNote(id) {
-        return this.readNotes().then((notes) => notes.filter((note)=> note.id !== id)).then((filteredNotes)=> this.write(filteredNotes))
+        return this.readNotes().then((notes) => notes.filter((note) => note.id !== id)).then((filteredNotes) => this.write(filteredNotes))
     }
 }
 
